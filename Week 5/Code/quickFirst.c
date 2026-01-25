@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+int partitionFirst(int arr[], int low, int high) {
+    int pivot = arr[low];
+    int i = low + 1;
+    int j = high;
+
+    while (i <= j) {
+        while (i <= high && arr[i] <= pivot)
+            i++;
+        while (arr[j] > pivot)
+            j--;
+
+        if (i < j) {
+            int temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+
+    // Place pivot in correct position
+    arr[low] = arr[j];
+    arr[j] = pivot;
+
+    return j;
+}
+
+void quickSortFirst(int arr[], int low, int high) {
+    if (low < high) {
+        int p = partitionFirst(arr, low, high);
+        quickSortFirst(arr, low, p - 1);
+        quickSortFirst(arr, p + 1, high);
+    }
+}
+
+int main() {
+    int arr[] = {157,110,147,122,111,149,151,141,123,112,117,133};
+    int n = 12;
+
+    quickSortFirst(arr, 0, n - 1);
+
+    for (int i = 0; i < n; i++)
+        printf("%d ", arr[i]);
+    return 0;
+}
